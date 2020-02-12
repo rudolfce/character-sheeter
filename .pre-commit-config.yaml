@@ -1,0 +1,12 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.4.0
+    hooks:
+    - id: check-merge-conflict
+    - id: check-yaml
+    - id: debug-statements
+    - id: detect-private-key
+    - id: requirements-txt-fixer
+    - id: end-of-file-fixer
+    - id: flake8
+      additional_dependencies: [flake8-print,flake8-bugbear,flake8-docstrings,flake8-broken-line,flake8-mypy]
