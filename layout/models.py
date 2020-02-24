@@ -9,6 +9,8 @@ class Layout(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
 
+    structure = db.Column(db.JSON())
+
     def __repr__(self):
         """Return the string representation."""
         return f'<Layout {self.name}>'
