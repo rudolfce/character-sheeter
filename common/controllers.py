@@ -19,6 +19,7 @@ class BaseListController(Resource):
 
     Model = None
     Serializer = None
+    InputSerializer = None
 
     def get(self):
         """Return serialized data from the underlying model as a list of objects."""
@@ -29,7 +30,10 @@ class BaseListController(Resource):
 
     def post(self):
         """Creates a new entry from deserialized data."""
-        serializer = self.Serializer()
+        if self.InputSerializer is None:
+            serializer = self.Serializer()
+        else:
+            serializer = self.InputSerializer()
 
         args = request.get_json()
         instance = serializer.load(args)

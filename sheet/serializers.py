@@ -17,3 +17,17 @@ class SheetSchema(ma.ModelSchema):
         model = Sheet
 
     layout = ma.Nested('LayoutSchema')
+
+
+class SheetInputSchema(ma.ModelSchema):
+    """
+    Schema for posting and putting sheet entries.
+
+    This serializing schema should be used to insert or update sheets through the API.
+    """
+
+    class Meta:
+        """SheetInputShcmea Meta."""
+
+        model = Sheet
+        include_fk = True

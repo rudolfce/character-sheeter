@@ -2,7 +2,7 @@
 
 from common.controllers import BaseListController, BaseGetController
 from sheet.models import Sheet
-from sheet.serializers import SheetSchema
+from sheet.serializers import SheetSchema, SheetInputSchema
 
 
 class SheetListController(BaseListController):
@@ -14,6 +14,7 @@ class SheetListController(BaseListController):
 
     Model = Sheet
     Serializer = SheetSchema
+    InputSerializer = SheetInputSchema
 
 
 class SheetController(BaseGetController):
