@@ -1,6 +1,10 @@
 """Common operations on API controllers."""
 
+from flask import request
 from flask_restful import Resource
+
+# Must find a clean way to avoid import db from here
+from sheeter.database import db
 
 
 class BaseListController(Resource):
@@ -10,7 +14,7 @@ class BaseListController(Resource):
     This class should be used as base for controller classes to serve the main route for every
     model. Methods standardized here include:
     - get: method to return a list of objects of the desired class
-    - post (TODO): method to create a new object of the desired class
+    - post: method to create a new object of the desired class
     """
 
     Model = None
@@ -22,6 +26,18 @@ class BaseListController(Resource):
         objects = self.Model.query.all()
 
         return serializer.dump(objects)
+
+    def post(self):
+        """Creates a new entry from deserialized data."""
+        serializer = self.Serializer()
+
+        args = request.get_json()
+        instance = serializer.load(args)
+
+        db.session.add(instance)
+        db.session.commit()
+
+        return serializer.dump(instance)
 
 
 class BaseGetController(Resource):
