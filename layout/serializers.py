@@ -29,12 +29,17 @@ class LayoutStructure(ma.Schema):
             raise ValidationError('Array fields must be arrays')
 
         errors = {}
+        field_names = set()
         for entry in contents:
+            schema = LayoutStructure()
             try:
-                schema = LayoutStructure()
-                schema.load(entry)
+                instance = schema.load(entry)
             except ValidationError as error:
                 errors[entry['name']] = str(error)
+            else:
+                if instance['name'] in field_names:
+                    errors[instance['name']] = 'Names inside an array must be unique'
+                field_names.add(instance['name'])
 
         if errors:
             raise ValidationError(errors)
