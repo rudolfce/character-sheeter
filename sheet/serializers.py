@@ -27,7 +27,7 @@ class SheetInputSchema(ma.ModelSchema):
     """
 
     class Meta:
-        """SheetInputShcmea Meta."""
+        """SheetInputSchema Meta."""
 
         model = Sheet
         include_fk = True
