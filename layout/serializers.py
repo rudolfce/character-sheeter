@@ -14,6 +14,10 @@ class LayoutStructure(ma.Schema):
     This schema is used to validate the layout structure at a fine level.
     """
     name = ma.Str(required=True)
+    description = ma.Str()
+
+    formatting_directives = ma.Dict()
+
     type_ = ma.Str(data_key='type', required=True)
     contents = ma.Field(required=True)
 
