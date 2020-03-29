@@ -9,4 +9,5 @@ repos:
     - id: requirements-txt-fixer
     - id: end-of-file-fixer
     - id: flake8
+      exclude: migrations/
       additional_dependencies: [flake8-print,flake8-bugbear,flake8-docstrings,flake8-broken-line,flake8-mypy]

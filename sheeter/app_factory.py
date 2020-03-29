@@ -2,7 +2,7 @@
 
 from flask import Flask
 
-from sheeter.database import db, ma
+from sheeter.database import db, ma, migrate
 
 from layout.blueprint import layout_bp
 from sheet.blueprint import sheet_bp
@@ -25,5 +25,6 @@ def create_app():
 
     db.init_app(app)
     ma.init_app(app)
+    migrate.init_app(app)
 
     return app
