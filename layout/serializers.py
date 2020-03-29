@@ -20,6 +20,7 @@ class LayoutStructure(ma.Schema):
 
     type_ = ma.Str(data_key='type', required=True)
     contents = ma.Field(required=True)
+    is_input = ma.Boolean(default=False, missing=False)
 
     valid_names = r'[a-zA-Z_][a-zA-Z0-9_]*'
 
@@ -30,8 +31,8 @@ class LayoutStructure(ma.Schema):
 
         errors = {}
         field_names = set()
+        schema = LayoutStructure()
         for entry in contents:
-            schema = LayoutStructure()
             try:
                 instance = schema.load(entry)
             except ValidationError as error:
@@ -93,3 +94,4 @@ class LayoutSchema(ma.ModelSchema):
         model = Layout
 
     structure = ma.Nested('LayoutStructure', required=True)
+    field_mapping = ma.Dict(keys=ma.Str(), values=ma.Str(), default={}, missing={})

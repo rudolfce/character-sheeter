@@ -2,6 +2,7 @@
 
 from flask import request
 from flask_restful import Resource
+from marshmallow import ValidationError
 
 # Must find a clean way to avoid import db from here
 from sheeter.database import db
@@ -21,6 +22,14 @@ class BaseListController(Resource):
     Serializer = None
     InputSerializer = None
 
+    def _validate_data(self, instance):
+        """
+        Perform backend data validation.
+
+        Use this method to validate data past the serializer.
+        """
+        pass
+
     def get(self):
         """Return serialized data from the underlying model as a list of objects."""
         serializer = self.Serializer(many=True)
@@ -37,6 +46,11 @@ class BaseListController(Resource):
 
         args = request.get_json()
         instance = serializer.load(args)
+
+        try:
+            self._validate_data(instance)
+        except ValidationError as exc:
+            return exc.messages, 400
 
         db.session.add(instance)
         db.session.commit()
