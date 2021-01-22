@@ -10,6 +10,7 @@ class Layout(db.Model):
     name = db.Column(db.String(255))
 
     structure = db.Column(db.JSON())
+    field_mapping = db.Column(db.JSON())
 
     def __repr__(self):
         """Return the string representation."""
