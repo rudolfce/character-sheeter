@@ -70,6 +70,15 @@ class BaseGetController(Resource):
 
     Model = None
     Serializer = None
+    InputSerializer = None
+
+    def _validate_data(self, instance):
+        """
+        Perform backend data validation.
+
+        Use this method to validate data past the serializer.
+        """
+        pass
 
     def get(self, id):
         """Return serialized data from the underlying model as a single detailed object."""
@@ -78,3 +87,23 @@ class BaseGetController(Resource):
         entry = self.Model.query.get(id)
 
         return serializer.dump(entry)
+
+    def put(self, id):
+        """Updates an existing entry from deserialized data."""
+        if self.InputSerializer is None:
+            serializer = self.Serializer()
+        else:
+            serializer = self.InputSerializer()
+
+        args = request.get_json()
+        instance = serializer.load(args, session=db.session)
+
+        try:
+            self._validate_data(instance)
+        except ValidationError as exc:
+            return exc.messages, 400
+
+        db.session.merge(instance)
+        db.session.commit()
+
+        return serializer.dump(instance)
