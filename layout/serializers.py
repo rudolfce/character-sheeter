@@ -45,10 +45,10 @@ class LayoutStructure(ma.Schema):
         if errors:
             raise ValidationError(errors)
 
-    def _validate_integer(self, contents):
-        """Validate integer fields."""
-        if not isinstance(contents, int):
-            raise ValidationError('Invalid data for integer type: {}'.format(contents))
+    def _validate_number(self, contents):
+        """Validate number fields."""
+        if not isinstance(contents, int) and not isinstance(contents, float):
+            raise ValidationError('Invalid data for number type: {}'.format(contents))
 
     def _validate_string(self, contents):
         """Validate string fields."""
@@ -69,7 +69,7 @@ class LayoutStructure(ma.Schema):
         The main structure has the contents validation coupled to the type of the field.
         """
         validations = {
-            'integer': self._validate_integer,
+            'number': self._validate_number,
             'string': self._validate_string,
             'array': self._validate_array,
         }
@@ -93,5 +93,6 @@ class LayoutSchema(ma.ModelSchema):
 
         model = Layout
 
+    name = ma.Str(required=True)
     structure = ma.Nested('LayoutStructure', required=True)
     field_mapping = ma.Dict(keys=ma.Str(), values=ma.Str(), default={}, missing={})
