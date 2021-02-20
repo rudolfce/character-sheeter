@@ -16,8 +16,6 @@ class SheetSchema(ma.ModelSchema):
 
         model = Sheet
 
-    layout = ma.Nested('LayoutSchema')
-
 
 class SheetInputSchema(ma.ModelSchema):
     """

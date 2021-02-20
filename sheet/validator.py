@@ -1,7 +1,5 @@
 """Defines a sheet validator that compares sheet_data with expected layout_structure"""
 
-import json
-
 
 class SheetValidator:
     """A sheet validator"""
@@ -25,12 +23,12 @@ class SheetValidator:
 
     def validate(self, instance):
         """Perform a validation."""
-        data = json.loads(instance.sheet_data)
-
-        if not data:
-            return ['No data to be validated']
+        data = instance.sheet_data
 
         errors = []
+
+        if not data:
+            return errors
 
         for key, value in data.items():
             hierarchy = key.split('.')
