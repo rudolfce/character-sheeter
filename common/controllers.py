@@ -4,6 +4,8 @@ from flask import request
 from flask_restful import Resource
 from marshmallow import ValidationError
 
+from flask_login import login_required
+
 # Must find a clean way to avoid import db from here
 from sheeter.database import db
 
@@ -30,6 +32,7 @@ class BaseListController(Resource):
         """
         pass
 
+    @login_required
     def get(self):
         """Return serialized data from the underlying model as a list of objects."""
         serializer = self.Serializer(many=True)
@@ -37,6 +40,7 @@ class BaseListController(Resource):
 
         return serializer.dump(objects)
 
+    @login_required
     def post(self):
         """Creates a new entry from deserialized data."""
         if self.InputSerializer is None:
@@ -80,6 +84,7 @@ class BaseGetController(Resource):
         """
         pass
 
+    @login_required
     def get(self, id):
         """Return serialized data from the underlying model as a single detailed object."""
         serializer = self.Serializer()
@@ -88,6 +93,7 @@ class BaseGetController(Resource):
 
         return serializer.dump(entry)
 
+    @login_required
     def put(self, id):
         """Updates an existing entry from deserialized data."""
         if self.InputSerializer is None:
